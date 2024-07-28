@@ -130,21 +130,20 @@ export class HomeComponent implements OnInit {
           ],
           totalWorkOutMinutes: Number(values?.minute),
         });
+        this.userWorkOutDetails = [...this.userWorkOutDetails];
+
+        // for  saving data in localStorage
+        localStorage.setItem(
+          'workOutData',
+          JSON.stringify(this.userWorkOutDetails)
+        );
+        this.utilsService.showSuccess(msg);
+        this.formGroup.reset();
+        Object.keys(this.formGroup.controls).forEach((key) => {
+          const control = this.formGroup.controls[key];
+          control.setErrors(null);
+        });
       }
-
-      this.userWorkOutDetails = [...this.userWorkOutDetails];
-
-      // for  saving data in localStorage
-      localStorage.setItem(
-        'workOutData',
-        JSON.stringify(this.userWorkOutDetails)
-      );
-      this.utilsService.showSuccess(msg);
-      this.formGroup.reset();
-      Object.keys(this.formGroup.controls).forEach((key) => {
-        const control = this.formGroup.controls[key];
-        control.setErrors(null);
-      });
     }
   }
 }
