@@ -2,11 +2,16 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { NgChartsModule } from 'ng2-charts';
-import { WorkoutData } from '../../interface/interface';
-import { Router } from '@angular/router';
-import { UtilsService } from '../../utils/utils.service';
 import { WorkoutsEnum } from '../../enum/enum';
+import { WorkoutData } from '../../interface/interface';
+import { UtilsService } from '../../utils/utils.service';
 
+interface DataSets {
+  label: string;
+  data: number[];
+  backgroundColor: string[];
+  barPercentage: number;
+}
 @Component({
   selector: 'app-chart-data',
   standalone: true,
@@ -16,32 +21,7 @@ import { WorkoutsEnum } from '../../enum/enum';
 })
 export class ChartDataComponent implements OnInit, AfterViewInit {
   labels: string[] = [];
-  datasets: any[] = [
-    {
-      label: WorkoutsEnum.CYCLING,
-      data: [50],
-      borderColor: ['#6a73fa'],
-      barPercentage: 5.9,
-    },
-    {
-      label: WorkoutsEnum.RUNNING,
-      data: [20],
-      borderColor: ['#FD0063'],
-      barPercentage: 5.9,
-    },
-    {
-      label: WorkoutsEnum.SWIMMING,
-      data: [30],
-      borderColor: ['orange'],
-      barPercentage: 5.9,
-    },
-    {
-      label: WorkoutsEnum.YOGA,
-      data: [30],
-      borderColor: ['orange'],
-      barPercentage: 5.9,
-    },
-  ];
+  datasets: DataSets[] = [];
   workoutData: WorkoutData | undefined;
   @Input({ required: true }) dataArray: WorkoutData[] = [];
 

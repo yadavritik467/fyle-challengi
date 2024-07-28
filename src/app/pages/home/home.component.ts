@@ -16,6 +16,7 @@ import { InputTrimDirective } from '../../directive/input-trim.directive';
 import { WorkoutsEnum } from '../../enum/enum';
 import { UtilsService } from '../../utils/utils.service';
 import { workoutData } from './workout.data';
+import { WorkoutData } from '../../interface/interface';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,7 @@ import { workoutData } from './workout.data';
 export class HomeComponent implements OnInit {
   formGroup: FormGroup = new FormGroup({});
   workoutsOpt = WorkoutsEnum;
-  userWorkOutDetails = workoutData;
+  userWorkOutDetails: WorkoutData[] = [];
   invalid: boolean = false;
 
   constructor(
@@ -53,7 +54,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     // for fetching the data from localStorage
-
     this.getDataFromLocalStorage();
   }
 
@@ -61,12 +61,13 @@ export class HomeComponent implements OnInit {
     const isLocalContainData = localStorage.getItem('workOutData');
     if (isLocalContainData) {
       this.userWorkOutDetails = JSON.parse(isLocalContainData);
+    } else {
+      this.userWorkOutDetails = workoutData;
     }
   }
 
   onSubmitWorkoutDetails() {
     this.invalid = true;
-
     if (this.formGroup.invalid) {
       return;
     } else {
@@ -133,12 +134,17 @@ export class HomeComponent implements OnInit {
 
       this.userWorkOutDetails = [...this.userWorkOutDetails];
 
-      // for  saving data in localstorage
+      // for  saving data in localStorage
       localStorage.setItem(
         'workOutData',
         JSON.stringify(this.userWorkOutDetails)
       );
       this.utilsService.showSuccess(msg);
+      this.formGroup.reset();
+      Object.keys(this.formGroup.controls).forEach((key) => {
+        const control = this.formGroup.controls[key];
+        control.setErrors(null);
+      });
     }
   }
 }
