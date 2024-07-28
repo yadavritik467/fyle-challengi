@@ -47,6 +47,10 @@ This project includes 100% code coverage for the following:
 - **Component**: `TableComponent`
 - **Service**: `UtilsService`
 
+# running the test coverage 
+
+Run `ng test --code-coverage`
+
 For more details, see the [coverage report](./coverage/healthchallengetracker/index.html).
 
 ## Installation
