@@ -1,0 +1,8 @@
+<div class="bg-white rounded-md p-4">
+  <p class="content text-primary py-5">
+    {{ camelCasePipe(workoutData?.name ?? "") }}'s Workout Progress
+  </p>
+  <div class="w-full h-[500px]">
+    <canvas id="workoutChart"></canvas>
+  </div>
+</div>
