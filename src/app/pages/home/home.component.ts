@@ -52,6 +52,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // for fetching the data from localStorage
+
     this.getDataFromLocalStorage();
   }
 
@@ -70,14 +72,14 @@ export class HomeComponent implements OnInit {
     } else {
       this.invalid = false;
       const values = this.formGroup.value;
-      console.log(values?.name?.trim());
       const msg = 'Workout added successfully';
+
+      // if the user exist and it will add workotype in that user property
       const userExist = this.userWorkOutDetails.some(
         (user) =>
           this.utilsService.camelCasePipe(user?.name) ===
           this.utilsService.camelCasePipe(values?.name)
       );
-      console.log(userExist);
 
       if (userExist) {
         this.userWorkOutDetails = this.userWorkOutDetails.map((user) => {
@@ -85,6 +87,7 @@ export class HomeComponent implements OnInit {
             this.utilsService.camelCasePipe(user?.name) ===
             this.utilsService.camelCasePipe(values?.name)
           ) {
+            // if the work type exists the it will stop the operation
             const workoutExists = user?.workouts?.some(
               (workout) => workout.type === values?.workoutType
             );
@@ -114,7 +117,7 @@ export class HomeComponent implements OnInit {
             };
           }
 
-          return user; // Return user without any changes
+          return user;
         });
       } else {
         this.userWorkOutDetails.push({
@@ -130,7 +133,11 @@ export class HomeComponent implements OnInit {
 
       this.userWorkOutDetails = [...this.userWorkOutDetails];
 
-      console.log(this.userWorkOutDetails);
+      // for  saving data in localstorage
+      localStorage.setItem(
+        'workOutData',
+        JSON.stringify(this.userWorkOutDetails)
+      );
       this.utilsService.showSuccess(msg);
     }
   }
