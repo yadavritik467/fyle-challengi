@@ -109,6 +109,7 @@ export class HomeComponent implements OnInit {
               0
             );
             const noOfWorkouts = updatedWorkouts.length;
+            this.utilsService.showSuccess('Workout type added successfully on existing user');
 
             return {
               ...user,
@@ -116,6 +117,7 @@ export class HomeComponent implements OnInit {
               totalWorkOutMinutes,
               noOfWorkouts,
             };
+            
           }
 
           return user;
