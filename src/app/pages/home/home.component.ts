@@ -132,11 +132,6 @@ export class HomeComponent implements OnInit {
         });
         this.userWorkOutDetails = [...this.userWorkOutDetails];
 
-        // for  saving data in localStorage
-        localStorage.setItem(
-          'workOutData',
-          JSON.stringify(this.userWorkOutDetails)
-        );
         this.utilsService.showSuccess(msg);
         this.formGroup.reset();
         Object.keys(this.formGroup.controls).forEach((key) => {
@@ -144,6 +139,11 @@ export class HomeComponent implements OnInit {
           control.setErrors(null);
         });
       }
+      // for  saving data in localStorage
+      localStorage.setItem(
+        'workOutData',
+        JSON.stringify(this.userWorkOutDetails)
+      );
     }
   }
 }

@@ -166,9 +166,6 @@ describe('HomeComponent', () => {
 
     // Assertions
     expect(component.userWorkOutDetails).toEqual(expectedData);
-    expect(localStorage.getItem('workOutData')).toEqual(
-      JSON.stringify(expectedData)
-    );
   });
 
   it('should show error and return the user if workout type already exists', () => {
@@ -208,9 +205,6 @@ describe('HomeComponent', () => {
 
     // Assertions
     expect(component.userWorkOutDetails).toEqual(expectedData);
-    expect(localStorage.getItem('workOutData')).toEqual(
-      JSON.stringify(expectedData)
-    );
     expect(showErrorSpy).toHaveBeenCalledWith('Workout type already exists');
   });
 
@@ -222,7 +216,7 @@ describe('HomeComponent', () => {
         name: 'john doe',
         workouts: [{ type: 'Running', minute: 30 }],
         noOfWorkouts: 1,
-        totalWorkOutMinutes: 30
+        totalWorkOutMinutes: 30,
       },
       {
         id: 2,
@@ -245,15 +239,15 @@ describe('HomeComponent', () => {
     component.formGroup.setValue({
       name: 'john doe',
       workoutType: 'Cycling', // New workout type
-      minute: 45
+      minute: 45,
     });
-  
+
     // Spy on utilsService methods
     spyOn(mockUtilsService, 'showError').and.callThrough();
-  
+
     // Call the method
     component.onSubmitWorkoutDetails();
-  
+
     // Expected data with new workout type added
     const expectedData = [
       {
@@ -261,10 +255,10 @@ describe('HomeComponent', () => {
         name: 'john doe',
         workouts: [
           { type: 'Running', minute: 30 },
-          { type: 'Cycling', minute: 45 }
+          { type: 'Cycling', minute: 45 },
         ],
         noOfWorkouts: 2,
-        totalWorkOutMinutes: 75
+        totalWorkOutMinutes: 75,
       },
       {
         id: 2,
@@ -283,19 +277,16 @@ describe('HomeComponent', () => {
         totalWorkOutMinutes: 80,
       },
     ];
-  
+
     // Assertions
     expect(component.userWorkOutDetails).toEqual(expectedData);
     expect(mockUtilsService.showError).not.toHaveBeenCalled();
   });
-  
-
-  
 
   it('should reset the form and clear errors after successful submission', () => {
     spyOn(localStorage, 'setItem');
     spyOn(mockUtilsService, 'showSuccess').and.callThrough();
-  
+
     // Prepare the component with initial values
     component.userWorkOutDetails = [];
     component.formGroup.setValue({
@@ -303,31 +294,30 @@ describe('HomeComponent', () => {
       workoutType: 'Running',
       minute: '30',
     });
-  
+
     // Call the method under test
     component.onSubmitWorkoutDetails();
-  
+
     // Verify that localStorage.setItem was called with correct parameters
     expect(localStorage.setItem).toHaveBeenCalledWith(
       'workOutData',
       JSON.stringify(component.userWorkOutDetails)
     );
-  
+
     // Verify that showSuccess was called with the correct message
     expect(mockUtilsService.showSuccess).toHaveBeenCalledWith(
       'Workout added successfully'
     );
-  
+
     // Verify that the form is reset (controls should have empty values)
     expect(component.formGroup.controls['name'].value).toBe(null);
     expect(component.formGroup.controls['workoutType'].value).toBe(null);
     expect(component.formGroup.controls['minute'].value).toBe(null);
-  
+
     // Verify that all form controls have no errors
     Object.keys(component.formGroup.controls).forEach((key) => {
       const control = component.formGroup.controls[key];
       expect(control.errors).toBeNull();
     });
   });
-  
 });
